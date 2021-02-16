@@ -4,13 +4,13 @@ year = 2020
 
 #month = 7
 #date = 20200729
-#hour_start = 8
-#hour_end = 16
+#hour_start = 6
+#hour_end = 22
 
 month = 2
 date = 20200216
-hour_start = 12
-hour_end = 20
+hour_start = 15
+hour_end = 23
 
 
 output_csv_dir = 'data/' + str(year) + '_' + str(month)
@@ -50,6 +50,7 @@ df_Umeo = df_Umeo[df_Umeo['hour']>=hour_start]
 df_Umeo = df_Umeo[df_Umeo['hour']<=hour_end]
 
 
+
 col_lst = []
 for h in range(hour_start, hour_end+1):
     col_lst.append(str(h))
@@ -80,3 +81,15 @@ for ens in range(0,10):
     ampl_input_df.to_csv(output_csv_filename, sep=' ', encoding='utf-8', header=False, index=False)
 
 
+
+pd.set_option('display.max_columns', 500)
+df_Kiruna = df_Kiruna.drop('date', 1)
+df_Malmo = df_Malmo.drop('date', 1)
+df_Ovik = df_Ovik.drop('date', 1)
+df_Sundsvall = df_Sundsvall.drop('date', 1)
+df_Umeo = df_Umeo.drop('date', 1)
+print(df_Kiruna)
+print(df_Malmo)
+print(df_Ovik)
+print(df_Sundsvall)
+print(df_Umeo)

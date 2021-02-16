@@ -2,115 +2,153 @@ import pandas as pd
 
 year = 2020
 
-month = 3
+month = 2
 
-airport = "Kiruna"
+#airport = "Kiruna"
 #airport = "Malmo"
 #airport = "Ovik"
 #airport = "Sundsvall"
-#airport = "Umeo"
+airport = "Umeo"
 
-metric1 = 'sf'
-#old thresholds
-##sf_threshold_mod = 0.001
-##sf_threshold_sev = 0.002
 sf_threshold_mod = 0.001
 sf_threshold_sev = 0.0025
+sf_threshold_dummy = 1000000
 
-metric1 = 'cbh'
-cbh_threshold_mod = 60    #for Malmo moderate threshold is the same as severe for other aiports
+cbh_threshold_mod = 100 #?????
 cbh_threshold_sev = 60
+if airport == "Malmo":
+    cbh_threshold_mod = 60    #for Malmo moderate threshold is the same as severe for other aiports
+    cbh_threshold_sev = 30
+cbh_threshold_dummy = -1
 
-#old thresholds
-##cbh_threshold_mod = 500
-##cbh_threshold_sev = 61    # 200 feet
-
-metric2 = 'lcc'
 lcc_threshold_mod = 0.625
 lcc_threshold_sev = 0.625
-#old thresholds
-##lcc_threshold_mod = 0.9
-##lcc_threshold_sev = 1
+lcc_threshold_dummy = 2
 
-metric4 = 'tp'
-#old thresholds
-##tp_threshold_mod = 0.001
-##tp_threshold_sev = 0.002
 tp_threshold_mod = 0.0025
 tp_threshold_sev = 0.01
+tp_threshold_dummy = 1000000
 
-metric5 = 'i10fg'
 i10fg_threshold_light = 7.716667 # 15 knots
 i10fg_threshold_mod = 12.86111 # 25 knots
 i10fg_threshold_sev = 18.00556 # 35 knots
+i10fg_threshold_dummy = 1000000
 
+# cutoff = 0.5
 if airport == "Kiruna":
-    metric1_threshold = sf_threshold_mod
-    metric2_threshold = cbh_threshold_sev
-    metric3_threshold = lcc_threshold_sev
-    metric4_threshold = tp_threshold_mod
-    metric5_threshold = i10fg_threshold_light
+    sf_threshold = sf_threshold_mod
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_mod
+    i10fg_threshold = i10fg_threshold_mod
 elif airport == "Umeo":
-    metric1_threshold = sf_threshold_mod
-    metric2_threshold = cbh_threshold_sev
-    metric3_threshold = lcc_threshold_sev
-    metric4_threshold = tp_threshold_mod
-    metric5_threshold = i10fg_threshold_mod
+    sf_threshold = sf_threshold_mod
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_mod
+    i10fg_threshold = i10fg_threshold_sev
 elif airport == "Sundsvall":
-    metric1_threshold = sf_threshold_sev
-    metric2_threshold = cbh_threshold_sev
-    metric3_threshold = lcc_threshold_sev
-    metric4_threshold = tp_threshold_sev
-    metric5_threshold = i10fg_threshold_mod
+    sf_threshold = sf_threshold_sev
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_sev
+    i10fg_threshold = i10fg_threshold_dummy
 elif airport == "Ovik":
-    metric2_threshold = cbh_threshold_sev
-    metric3_threshold = lcc_threshold_sev
+    sf_threshold = sf_threshold_dummy
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_dummy
+    i10fg_threshold = i10fg_threshold_dummy
 else: #Malmo
-    metric2_threshold = cbh_threshold_mod
-    metric3_threshold = lcc_threshold_mod
-    metric5_threshold = i10fg_threshold_sev
+    sf_threshold = sf_threshold_dummy
+    cbh_threshold = cbh_threshold_mod
+    lcc_threshold = lcc_threshold_mod
+    tp_threshold = tp_threshold_dummy
+    i10fg_threshold = i10fg_threshold_sev
+
+'''cutoff = 0.4
+if airport == "Kiruna":
+    sf_threshold = sf_threshold_mod
+    cbh_threshold = cbh_threshold_mod
+    lcc_threshold = lcc_threshold_mod
+    tp_threshold = tp_threshold_mod
+    i10fg_threshold = i10fg_threshold_mod
+elif airport == "Umeo":
+    sf_threshold = sf_threshold_mod
+    cbh_threshold = cbh_threshold_mod
+    lcc_threshold = lcc_threshold_mod
+    tp_threshold = tp_threshold_mod
+    i10fg_threshold = i10fg_threshold_mod
+elif airport == "Sundsvall":
+    sf_threshold = sf_threshold_sev
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_sev
+    i10fg_threshold = i10fg_threshold_mod
+elif airport == "Ovik":
+    sf_threshold = sf_threshold_sev
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_sev
+    i10fg_threshold = i10fg_threshold_dummy
+else: #Malmo
+    sf_threshold = sf_threshold_dummy
+    cbh_threshold = cbh_threshold_mod
+    lcc_threshold = lcc_threshold_mod
+    tp_threshold = tp_threshold_dummy
+    i10fg_threshold = i10fg_threshold_mod'''
+
+'''cutoff = 0.6
+if airport == "Kiruna":
+    sf_threshold = sf_threshold_sev
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_sev
+    i10fg_threshold = i10fg_threshold_sev
+elif airport == "Umeo":
+    sf_threshold = sf_threshold_sev
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_sev
+    i10fg_threshold = i10fg_threshold_dummy
+elif airport == "Sundsvall":
+    sf_threshold = sf_threshold_sev
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_sev
+    i10fg_threshold = i10fg_threshold_dummy
+elif airport == "Ovik":
+    sf_threshold = sf_threshold_dummy
+    cbh_threshold = cbh_threshold_dummy
+    lcc_threshold = lcc_threshold_dummy
+    tp_threshold = tp_threshold_dummy
+    i10fg_threshold = i10fg_threshold_dummy
+else: #Malmo
+    sf_threshold = sf_threshold_dummy
+    cbh_threshold = cbh_threshold_sev
+    lcc_threshold = lcc_threshold_sev
+    tp_threshold = tp_threshold_dummy
+    i10fg_threshold = i10fg_threshold_dummy'''
+    
+    
 
 input_csv_filename = 'data/' + airport + '/' + airport + '_' + str(year) + '_' + str(month) + '_ensemble_24hours.csv'
 output_csv_filename = 'data/' + airport + '/' + airport + '_' + str(year) + '_' + str(month) + '_closed.csv'
-
-
-def isOvikClosed(row, ens_member):
-    
-    if row[14+ens_member] > metric2_threshold and row[24+ens_member] == metric3_threshold:
-        return 1
-
-    return 0
-
-def isMalmoClosed(row, ens_member):
-    
-    if row[14+ens_member] > metric2_threshold and row[24+ens_member] > metric3_threshold:
-        return 1
-
-    if row[44+ens_member] > metric5_threshold:
-        return 1
-
-    return 0
+ 
 
 
 def isClosed(row, ens_member):
     
-    if airport == "Ovik":
-        return isOvikClosed(row, ens_member)
-    
-    if airport == "Malmo":
-        return isMalmoClosed(row, ens_member)
-
-
-    if row[4+ens_member] > metric1_threshold:
+    if row[4+ens_member] > sf_threshold:
         return 1;
 
-    if row[14+ens_member] > metric2_threshold and row[24+ens_member] == metric3_threshold:
+    if row[14+ens_member] < cbh_threshold and row[24+ens_member] > lcc_threshold:
         return 1;
 
-    if row[34+ens_member] > metric4_threshold:
+    if row[34+ens_member] > tp_threshold:
         return 1;
 
-    if row[44+ens_member] > metric5_threshold:
+    if row[44+ens_member] > i10fg_threshold:
         return 1;
 
     return 0
