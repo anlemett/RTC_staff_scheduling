@@ -2,13 +2,14 @@ import pandas as pd
 
 year = 2020
 
-month = 7
+month = 2
 
 airport = "Kiruna"
-#airport = "Malmo"
+#airport = "Umeo"
 #airport = "Ovik"
 #airport = "Sundsvall"
-#airport = "Umeo"
+#airport = "Malmo"
+
 
 
 # cbh, lcc, tp, i10fg, cape, cp
@@ -21,6 +22,9 @@ output_csv_filename = 'data/' + airport + '/' + airport + '_' + str(year) + '_' 
 df = pd.read_csv(input_csv_filename, sep=' ')
 
 
+df['month'] = df['month'].astype(int)
+df['day'] = df['day'].astype(int)
+df['hour'] = df['hour'].astype(int)
 df['date'] = df['date'].astype(int)
 
 print(df.head())
@@ -35,7 +39,9 @@ for index, row in df.iterrows():
     
     previous_hour = row_hour - 1 if row_hour > 0 else 23
     date = row['date'] if row_hour > 0 else row['date'] - 1
+    day = row['day'] if row_hour > 0 else row['day'] - 1
     row_lst = row.values.tolist()
+    row_lst[1] = day
     row_lst[3] = date
     row_lst[2] = previous_hour
     lst.append(row_lst)
@@ -59,7 +65,7 @@ new_data = pd.DataFrame(new_df[-1:].values, columns=new_df.columns)
 new_data['hour'] = 23
 new_df = new_df.append(new_data)
 
-# devide over 3 for cummulative metrics
+
 tp_ens = ['tp0', 'tp1', 'tp2', 'tp3', 'tp4', 'tp5', 'tp6', 'tp7', 'tp8', 'tp9']
 
 for tp in tp_ens:
@@ -71,28 +77,27 @@ for tp in tp_ens:
         tp_list[i+1] = tp_list[i+2] / 3
         tp_list[i+2] = tp_list[i+2] / 3
     
-    #here we actually need data from the first day of the next month  but we do not use the last day of the month
+    #here we actually need data from the first day of the next month but we do not use the last day of the month
     tp_list[-1] = tp_list[-1] / 3
     tp_list[-2] = tp_list[-2] / 3
 
     new_df[tp] = tp_list
+sf_ens = ['sf0', 'sf1', 'sf2', 'sf3', 'sf4', 'sf5', 'sf6', 'sf7', 'sf8', 'sf9']
 
-cp_ens = ['cp0', 'cp1', 'cp2', 'cp3', 'cp4', 'cp5', 'cp6', 'cp7', 'cp8', 'cp9']
+for sf in sf_ens:
+    sf_list = new_df[sf].tolist()
+    sf_list[0] = sf_list[0] / 3
 
-for cp in cp_ens:
-    cp_list = new_df[cp].tolist()
-    cp_list[0] = cp_list[0] / 3
-
-    for i in range(1, len(cp_list)-2, 3):
-        cp_list[i] = cp_list[i+2] / 3
-        cp_list[i+1] = cp_list[i+2] / 3
-        cp_list[i+2] = cp_list[i+2] / 3
+    for i in range(1, len(sf_list)-2, 3):
+        sf_list[i] = sf_list[i+2] / 3
+        sf_list[i+1] = sf_list[i+2] / 3
+        sf_list[i+2] = sf_list[i+2] / 3
     
     #here we actually need data from the first day of the next month but we do not use the last day of the month
-    cp_list[-1] = cp_list[-1] / 3
-    cp_list[-2] = cp_list[-2] / 3
+    sf_list[-1] = sf_list[-1] / 3
+    sf_list[-2] = sf_list[-2] / 3
 
-    new_df[cp] = cp_list
+    new_df[sf] = sf_list
 
 
 # linear interpolation for other metrics
@@ -131,17 +136,6 @@ for i10fg in i10fg_ens:
         i10fg_list[i+2] = i10fg_list[i] + 2 * (i10fg_list[i+3] - i10fg_list[i])/3
     
     new_df[i10fg] = i10fg_list
-
-cape_ens = ['cape0', 'cape1', 'cape2', 'cape3', 'cape4', 'cape5', 'cape6', 'cape7', 'cape8', 'cape9']
-
-for cape in cape_ens:
-    cape_list = new_df[cape].tolist()
-
-    for i in range(0, len(cape_list)-5, 3):
-        cape_list[i+1] = cape_list[i] + (cape_list[i+3] - cape_list[i])/3
-        cape_list[i+2] = cape_list[i] + 2 * (cape_list[i+3] - cape_list[i])/3
-    
-    new_df[cape] = cape_list
 
 
 new_df.to_csv(output_csv_filename, sep=' ', float_format='%.9f', encoding='utf-8', header=True, index=False)
