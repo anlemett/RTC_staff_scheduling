@@ -2,13 +2,13 @@ import pandas as pd
 
 year = 2020
 
-month = 7
+month = 9
 
-airport = "Kiruna"
+#airport = "Kiruna"
 #airport = "Umeo"
 #airport = "Ovik"
 #airport = "Sundsvall"
-#airport = "Malmo"
+airport = "Malmo"
 
 # cbh, lcc, tp, i10fg, cape, cp
 

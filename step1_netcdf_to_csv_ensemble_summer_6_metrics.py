@@ -8,13 +8,13 @@ import math
 
 year = 2020
 
-month = 7
+month = 9
 
 #airport = "Kiruna"
-#airport = "Malmo"
-#airport = "Ovik"
+#airport = "Umeo"
 #airport = "Sundsvall"
-airport = "Umeo"
+#airport = "Ovik"
+airport = "Malmo"
 
 
 metrics = ['cbh', 'lcc', 'tp', 'i10fg', 'cape', 'cp']
@@ -64,7 +64,7 @@ df['date'] = df.apply(lambda row: getDate(row['month'], row['day']), axis=1)
 
 
 pd.set_option('display.max_column',None)
-#print(df.head())
+print(df.head())
 
 
 cols = ['month','day','hour', 'date', 'number'] + metrics
@@ -76,6 +76,8 @@ df['number'] = df['number'].astype(int)
 df = df.sort_values(by = ['month', 'day', 'hour'], ascending = [True, True, True])
 
 df = df[df.month == month]
+
+print(df.head())
 
 
 tables = []
@@ -92,6 +94,7 @@ for metric in range(0,6):
 
 
 df = pd.concat([tables[0], tables[1], tables[2], tables[3], tables[4], tables[5]], axis=1)
+
 df.to_csv(csv_filename, sep=' ', encoding='utf-8', float_format='%.9f', header=True, index=True)
 
 print((time.time()-start_time)/60)

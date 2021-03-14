@@ -227,16 +227,16 @@ def set_thresholds(airport, cutoff):
 def isClosed(row, ens_member, sf_threshold, cbh_threshold, lcc_threshold, tp_threshold, i10fg_threshold):
     
     if row[4+ens_member] > sf_threshold:
-        return 1;
+        return 1
 
     if row[14+ens_member] < cbh_threshold and row[24+ens_member] > lcc_threshold:
-        return 1;
+        return 1
 
     if row[34+ens_member] > tp_threshold:
-        return 1;
+        return 1
 
     if row[44+ens_member] > i10fg_threshold:
-        return 1;
+        return 1
 
     return 0
 

@@ -3,7 +3,7 @@ import os
 
 year = 2020
 
-month = 7
+month = 8
 
 airports = ["Kiruna", "Umeo", "Sundsvall", "Ovik", "Malmo"]
 
@@ -32,10 +32,18 @@ cape_threshold_mod= 1000
 cape_threshold_sev = 1000
 cape_threshold_dummy = 100000000
 
-cp_threshold_light = 0.000075 ##0.075mm == 0.000075m
-cp_threshold_mod = 0.0025 ##2.5mm == 0.0025m
-cp_threshold_sev = 0.01 ##10mm = 0.01m
+#cp_threshold_light = 0.000075 ##0.075mm == 0.000075m
+#cp_threshold_mod = 0.0025 ##2.5mm == 0.0025m
+#cp_threshold_sev = 0.01 ##10mm = 0.01m
+#cp_threshold_dummy = 1000000
+
+cp_threshold_light = 0.00025
+cp_threshold_mod = 0.00025
+cp_threshold_sev = 0.00025
 cp_threshold_dummy = 1000000
+
+
+
 
 
 def set_thresholds(airport, cutoff):

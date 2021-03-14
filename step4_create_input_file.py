@@ -5,13 +5,23 @@ year = 2020
 '''
 month = 2
 date = 20200216
-hour_start = 12
-hour_end = 20
-'''
+hour_start = 6
+hour_end = 14
+
 month = 7
 date = 20200729
-hour_start = 12
-hour_end = 23
+hour_start = 14
+hour_end = 22
+
+month = 7
+date = 20200709
+hour_start = 6
+hour_end = 14
+'''
+month = 8
+date = 20200819
+hour_start = 6
+hour_end = 14
 
 
 Kiruna_input_dir = os.path.join('data', 'Kiruna')
